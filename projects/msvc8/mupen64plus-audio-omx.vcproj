@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="mupen64plus-audio-sdl"
+	Name="mupen64plus-audio-omx"
 	ProjectGUID="{96969748-EA54-43FC-8103-A346E9AD98E7}"
-	RootNamespace="mupen64plusaudiosdl"
+	RootNamespace="mupen64plusaudioomx"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
