@@ -181,18 +181,6 @@ ifeq ($(OS), OSX)
   endif
 endif
 
-# test for presence of SDL
-ifeq ($(origin SDL_CFLAGS) $(origin SDL_LDLIBS), undefined undefined)
-  SDL_CONFIG = $(CROSS_COMPILE)sdl-config
-  ifeq ($(shell which $(SDL_CONFIG) 2>/dev/null),)
-    $(error No SDL development libraries found!)
-  endif
-  SDL_CFLAGS  += $(shell $(SDL_CONFIG) --cflags)
-  SDL_LDLIBS += $(shell $(SDL_CONFIG) --libs)
-endif
-CFLAGS += $(SDL_CFLAGS)
-LDLIBS += $(SDL_LDLIBS)
-
 # test for essential build dependencies
 ifeq ($(origin PKG_CONFIG), undefined)
   PKG_CONFIG = $(CROSS_COMPILE)pkg-config
@@ -274,9 +262,6 @@ OBJDIR = _obj$(POSTFIX)
 # list of source files to compile
 SOURCE = \
 	$(SRCDIR)/main.c
-#	$(SRCDIR)/ilclient.c \
-#	$(SRCDIR)/ilcore.c \
-#	$(SRCDIR)/volume.c
 
 ifeq ($(OS),MINGW)
 SOURCE += $(SRCDIR)/osal_dynamiclib_win32.c
@@ -307,7 +292,6 @@ targets:
 	@echo "    WARNFLAGS=flag == compiler warning levels (default: -Wall)"
 	@echo "    PIC=(1|0)     == Force enable/disable of position independent code"
 	@echo "    NO_SRC=1      == build without libsamplerate; disables src-* high-quality audio resampling"
-	@echo "    NO_SPEEX=1    == build without libspeexdsp; disables speex-* high-quality audio resampling"
 	@echo "    NO_OSS=1      == build without OSS; disables Open Sound System support"
 	@echo "    POSTFIX=name  == String added to the name of the the build (default: '')"
 	@echo "  Install Options:"
