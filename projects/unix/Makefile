@@ -124,8 +124,12 @@ CFLAGS += $(OPTFLAGS) $(WARNFLAGS) -ffast-math -fno-strict-aliasing -fvisibility
 LDFLAGS += $(SHARED)
 
 ifeq ("$(MACHINE)","armv6l")
-CFLAGS += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -DHAVE_LIBOPENMAX=2 -DOMX -DOMX_SKIP64BIT -DUSE_EXTERNAL_OMX -DHAVE_LIBBCM_HOST -DUSE_EXTERNAL_LIBBCM_HOST -DUSE_VCHIQ_ARM
-LDLIBS += -lm -L/opt/vc/lib -lbcm_host -lvcos -lvchiq_arm -lopenmaxil
+  VC=1
+endif
+
+ifeq ($(VC), 1)
+  CFLAGS += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -DHAVE_LIBOPENMAX=2 -DOMX -DOMX_SKIP64BIT -DUSE_EXTERNAL_OMX -DHAVE_LIBBCM_HOST -DUSE_EXTERNAL_LIBBCM_HOST -DUSE_VCHIQ_ARM
+  LDLIBS += -lm -L/opt/vc/lib -lbcm_host -lvcos -lvchiq_arm -lopenmaxil
 endif
 
 # Since we are building a shared library, we must compile with -fPIC on some architectures
@@ -289,6 +293,7 @@ targets:
 	@echo "    BITS=32       == build 32-bit binaries on 64-bit machine"
 	@echo "    APIDIR=path   == path to find Mupen64Plus Core headers"
 	@echo "    OPTFLAGS=flag == compiler optimization (default: -O3 -flto)"
+	@echo "    VC=1 	 == build against broadcoms videocore libs"	
 	@echo "    WARNFLAGS=flag == compiler warning levels (default: -Wall)"
 	@echo "    PIC=(1|0)     == Force enable/disable of position independent code"
 	@echo "    NO_SRC=1      == build without libsamplerate; disables src-* high-quality audio resampling"
