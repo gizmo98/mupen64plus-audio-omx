@@ -44,7 +44,7 @@
 #include "main.h"
 #include "osal_dynamiclib.h"
 
-extern uint32_t SDL_GetTicks(void);
+#include <SDL.h>
 
 #define DEFAULT_BUFFER_SIZE 2048
 
@@ -229,9 +229,9 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
 	ConfigSetParameter = 	(ptr_ConfigSetParameter) 	osal_dynlib_getproc(CoreLibHandle, "ConfigSetParameter");
 	ConfigGetParameter = 	(ptr_ConfigGetParameter) 	osal_dynlib_getproc(CoreLibHandle, "ConfigGetParameter");
 	ConfigSetDefaultInt = 	(ptr_ConfigSetDefaultInt) 	osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultInt");
-	ConfigSetDefaultFloat = (ptr_ConfigSetDefaultFloat) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultFloat");
+	ConfigSetDefaultFloat = (ptr_ConfigSetDefaultFloat) 	osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultFloat");
 	ConfigSetDefaultBool = 	(ptr_ConfigSetDefaultBool) 	osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultBool");
-	ConfigSetDefaultString = (ptr_ConfigSetDefaultString) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultString");
+	ConfigSetDefaultString = (ptr_ConfigSetDefaultString) 	osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultString");
 	ConfigGetParamInt = 	(ptr_ConfigGetParamInt) 	osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamInt");
 	ConfigGetParamFloat = 	(ptr_ConfigGetParamFloat) 	osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamFloat");
 	ConfigGetParamBool = 	(ptr_ConfigGetParamBool) 	osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamBool");
@@ -472,19 +472,19 @@ static int32_t audioplay_create(uint32_t num_buffers,
 	error = OMX_SendCommand(OMX_Handle, OMX_CommandPortDisable, PORT_INDEX, NULL);
 
 	int nPorts;
-    int startPortNumber;
-    int n;
+    	int startPortNumber;
+    	int n;
 	OMX_PORT_PARAM_TYPE param2;
 
 	memset(&param2, 0, sizeof(OMX_PORT_PARAM_TYPE));
 	param2.nSize = sizeof(OMX_PORT_PARAM_TYPE);
 	param2.nVersion.nVersion = OMX_VERSION;
 
-    error = OMX_GetParameter(OMX_Handle, OMX_IndexParamOtherInit, &param2);
-    if(error != OMX_ErrorNone)
-{
+    	error = OMX_GetParameter(OMX_Handle, OMX_IndexParamOtherInit, &param2);
+    	if(error != OMX_ErrorNone)
+	{
 		DebugMessage(M64MSG_ERROR, "line %d: Failed to Get OMX Parameters. Error 0x%X",__LINE__, error);
-    }
+    	}
 	else
 	{
 		startPortNumber = ((OMX_PORT_PARAM_TYPE)param2).nStartPortNumber;
@@ -659,7 +659,7 @@ static uint32_t SendBufferToAudio()
 	DEBUG_PRINT("audioplay_play_buffer()\n");
 	
 	audioBuffers[uiBufferIndex]->nOffset = 0;
-    audioBuffers[uiBufferIndex]->nFilledLen = (uiSecondaryBufferSamples * 4);
+    	audioBuffers[uiBufferIndex]->nFilledLen = (uiSecondaryBufferSamples * 4);
 
 	error = OMX_EmptyThisBuffer(OMX_Handle, audioBuffers[uiBufferIndex++]);
 	if ( error != OMX_ErrorNone)
@@ -846,7 +846,7 @@ EXPORT int CALL InitiateAudio( AUDIO_INFO Audio_Info )
 	error = OMX_Init();
 	if(error != OMX_ErrorNone) DebugMessage(M64MSG_ERROR, "%d OMX_Init() failed", __LINE__);
 
-return 1;
+	return 1;
 }
 
 static void InitializeAudio(int freq)
@@ -1077,5 +1077,3 @@ EXPORT const char * CALL VolumeGetString(void)
 {
 	return "100%";
 }
-
-
