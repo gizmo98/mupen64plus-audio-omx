@@ -19,6 +19,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include "m64p_config.h"
+
 /* version info */
 #define SDL_AUDIO_PLUGIN_VERSION 0x020000
 #define AUDIO_PLUGIN_API_VERSION 0x020000
