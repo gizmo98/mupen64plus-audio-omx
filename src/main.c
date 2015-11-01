@@ -46,7 +46,7 @@
 
 #include <SDL.h>
 
-#define DEFAULT_BUFFER_SIZE 2048
+#define DEFAULT_BUFFER_SIZE 4096
 
 /* This sets default frequency what is used if rom doesn't want to change it.
    Probably only game that needs this is Zelda: Ocarina Of Time Master Quest
