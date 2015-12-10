@@ -713,12 +713,12 @@ EXPORT void CALL AiLenChanged( void )
 
 			if(latency > uiLatency)
 			{
-				DebugMessage(M64MSG_VERBOSE, "Waiting %dms ", latency - uiLatency);
+				//DebugMessage(M64MSG_VERBOSE, "Waiting %dms ", latency - uiLatency);
 				usleep((latency - uiLatency) * 1000 );
 			}
 			else if (latency == 0)
 			{
-				DebugMessage(M64MSG_WARNING, "Audio Buffer under run(%d)", uiUnderRunCount);
+				//DebugMessage(M64MSG_WARNING, "Audio Buffer under run(%d)", uiUnderRunCount);
 				uiUnderRunCount++;
 			}
 
