@@ -46,7 +46,7 @@
 
 #include <SDL.h>
 
-#define DEFAULT_BUFFER_SIZE 4096
+#define DEFAULT_BUFFER_SIZE 2048
 
 /* This sets default frequency what is used if rom doesn't want to change it.
    Probably only game that needs this is Zelda: Ocarina Of Time Master Quest
@@ -67,7 +67,7 @@
 #define OUTPUT_PORT 1
 
 /* Latency in ms that the audio buffers may have*/
-#define DEFAULT_LATENCY 100
+#define DEFAULT_LATENCY 300
 
 /* Number of buffers used by Audio*/
 #define DEFAULT_NUM_BUFFERS 3
@@ -125,7 +125,7 @@ static uint32_t uiNumBuffers = DEFAULT_NUM_BUFFERS;
 
 static uint32_t	bNative = 0;
 
-static uint32_t uiUnderrunMode = 0;
+static uint32_t uiUnderrunMode = 1;
 
 static uint32_t critical_failure = 0;
 
@@ -646,12 +646,12 @@ static uint32_t SendBufferToAudio()
 
 		if(latency > uiLatency)
 		{
-			DebugMessage(M64MSG_VERBOSE, "Waiting %dms ", latency - uiLatency);
+			//DebugMessage(M64MSG_VERBOSE, "Waiting %dms ", latency - uiLatency);
 			usleep((latency - uiLatency) * 1000 );
 		}
 		else if (latency == 0)
 		{
-			DebugMessage(M64MSG_WARNING, "Audio Buffer under run(%d)", uiUnderRunCount);
+			//DebugMessage(M64MSG_WARNING, "Audio Buffer under run(%d)", uiUnderRunCount);
 			uiUnderRunCount++;
 		}
 	}
@@ -1011,17 +1011,17 @@ static void ReadConfig(void)
 {
 	/* read the configuration values into our static variables */
 #ifdef EXT_CFG
-	bNative = 					ConfigGetParamBool(l_ConfigAudio, "NATIVE_MODE");
-	uiSecondaryBufferSamples = 	ConfigGetParamInt(l_ConfigAudio, "BUFFER_SIZE");
+	bNative = 				ConfigGetParamBool(l_ConfigAudio, "NATIVE_MODE");
+	uiSecondaryBufferSamples = 	        ConfigGetParamInt(l_ConfigAudio, "BUFFER_SIZE");
 	uiLatency = 				ConfigGetParamInt(l_ConfigAudio, "LATENCY");
 	uiUnderrunMode = 			ConfigGetParamInt(l_ConfigAudio, "UNDERRUN_MODE");
 	if (uiLatency <= MIN_LATENCY_TIME) uiLatency = MIN_LATENCY_TIME + 1;
 #endif
-
-	GameFreq = 					ConfigGetParamInt(l_ConfigAudio, "DEFAULT_FREQUENCY");
+        
+	GameFreq = 				ConfigGetParamInt(l_ConfigAudio, "DEFAULT_FREQUENCY");
 	bSwapChannels = 			ConfigGetParamBool(l_ConfigAudio, "SWAP_CHANNELS");
 	uiOutputPort = 				ConfigGetParamInt(l_ConfigAudio, "OUTPUT_PORT");
-	uiOutputFrequencyMode = 	ConfigGetParamInt(l_ConfigAudio, "DEFAULT_MODE");	
+	uiOutputFrequencyMode = 	        ConfigGetParamInt(l_ConfigAudio, "DEFAULT_MODE");	
 }
 
 // Sets the volume level based on the contents of VolPercent and VolIsMuted
